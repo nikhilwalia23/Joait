@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice JOA(IT) 817</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f6ab3fff.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="banner">
+        <nav>
+        <span class="name">Typing Test Envionment JOA(IT) 817</span>
+        <a href="https://github.com/nikhilwalia23" target="_blank"><i class="fab fa-github social-icon" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/nikhilwalia23" target="_blank"><i class="fab fa-instagram social-icon" aria-hidden="true"></i></a>
+        <a href="https://twitter.com/nikhilwalia23" target="_blank"><i class="fab fa-twitter social-icon" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/nikhil-walia-65997a181" target="_blank"><i class="fab fa-linkedin social-icon" aria-hidden="true"></i></a>
+        <span class="">(Send direct message on instagram for any suggestion or bug report)</span>
+        </nav>
+        <div class="control">
+            <h2 id="timer">Minutes: 0 <br> Seconds: 0</h2>
+            <button class="btn btn-start" onclick="start();">Start</button>
+            <button class="btn btn-stop" onclick="stop();">Stop</button>
+            <button class="btn btn-restart" onclick="resstart();">Re-Start</button>
+        </div>
+        <textarea id="mytextarea" spellcheck="false" onclick="check()"></textarea>
+    </div>
+</body>
+<script>
+    var clock = document.getElementById("timer");
+    var txt=document.getElementById("mytextarea");
+    var timeinterval;
+    function time_remaining(endtime){
+	var t = Date.parse(endtime) - Date.parse(new Date());
+	var seconds = Math.floor( (t/1000) % 60 );
+	var minutes = Math.floor( (t/1000/60) % 60 );
+	var hours = Math.floor( (t/(1000*60*60)) % 24 );
+	var days = Math.floor( t/(1000*60*60*24) );
+	return {'total':t, 'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds};
+   }
+function run_clock(id,endtime){
+	function update_clock(){
+		t = time_remaining(endtime);
+		clock.innerHTML = 'Minutes: '+t.minutes+'<br>Seconds: '+t.seconds;
+		if(t.total<=0){ clearInterval(timeinterval); txt.select(); txt.disabled=true;  alert("Time Over.... Count Stroke"); document.execCommand('copy');}
+	}
+	update_clock(); // run function once at first to avoid delay
+	timeinterval = setInterval(update_clock,1000);
+}
+function start()
+{
+    if(timeinterval){alert("alrady running ! You can restart Using Restart button ..");return;}
+    var time_in_minutes = 1/9;
+    txt.value="";
+    txt.disabled=false;
+    txt.focus();
+    var current_time = Date.parse(new Date());
+    var deadline = new Date(current_time + time_in_minutes*60*1000);
+    run_clock("timer",deadline);
+}
+function stop()
+{
+    clearInterval(timeinterval);
+    timeinterval=undefined;
+    clock.innerHTML="Minutes:0<br>Seconds:0";
+    txt.disabled=true;
+}
+function resstart()
+{
+    clearInterval(timeinterval);
+    timeinterval=undefined;
+    start();
+}
+function check()
+{
+    if(!timeinterval)
+    {
+        alert("Click On start button and start typing !");
+    }
+}
+</script>
+</html>
